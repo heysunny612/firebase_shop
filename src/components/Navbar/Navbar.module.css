@@ -1,0 +1,23 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #eaeaea;
+  width: 100%;
+}
+
+.logo {
+  font-size: 34px;
+}
+.logo a {
+  color: palevioletred;
+}
+
+.nav {
+  display: flex;
+  margin-left: 10px;
+}
+.nav a {
+  margin-left: 10px;
+}
