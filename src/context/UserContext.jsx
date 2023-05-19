@@ -1,14 +1,19 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
+import { login, logout, onUserStateChange } from '../api/firebase';
 
 const UserContext = createContext();
 
-export function UserProvider({ children }) {
-  const [user, setUser] = useState('');
+export function UserContextProvider({ children }) {
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    onUserStateChange(setUser);
+  }, []);
+
   return (
-    <UserContext.Provider value={(user, setUser)}>
+    <UserContext.Provider value={{ user, login, logout }}>
       {children}
     </UserContext.Provider>
   );
 }
 
-export const useUser = () => useContext(UserContext);
+export const useUserContext = () => useContext(UserContext);
