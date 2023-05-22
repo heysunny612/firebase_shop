@@ -1,0 +1,17 @@
+.new_product_wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding-top: 200px;
+}
+
+.new_product_form {
+  width: 50%;
+  background-color: red;
+}
+.new_product_form input {
+  display: block;
+  width: 100%;
+}

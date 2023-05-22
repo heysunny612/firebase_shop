@@ -1,13 +1,20 @@
 import Navbar from './components/Navbar/Navbar';
 import { Outlet } from 'react-router-dom';
-import { UserContextProvider } from './context/UserContext';
+import { useUserContext } from './context/UserContext';
 
 function App() {
+  const { isGettingUser } = useUserContext();
   return (
-    <UserContextProvider>
-      <Navbar />
-      <Outlet />
-    </UserContextProvider>
+    <>
+      {!isGettingUser ? (
+        '로딩중입니다'
+      ) : (
+        <>
+          <Navbar />
+          <Outlet />
+        </>
+      )}
+    </>
   );
 }
 

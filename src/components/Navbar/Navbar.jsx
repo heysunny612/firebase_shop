@@ -1,32 +1,57 @@
 import styles from './Navbar.module.css';
-import { FaStore, FaPen } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import User from './User/User';
 import { useUserContext } from '../../context/UserContext';
+import { logout } from '../../api/firebase';
 
 export default function Navbar() {
-  const { user, login, logout } = useUserContext();
-
+  const { user } = useUserContext();
   return (
     <header className={styles.header}>
-      <h1 className={styles.logo}>
-        <Link to='/'>
-          <FaStore /> Sunny SideUp
-        </Link>
-      </h1>
-      <nav className={styles.nav}>
-        <Link to='/products'>Products </Link>
-        {user && user.isAdmin && (
-          <Link to='/'>
-            <FaPen />
-          </Link>
-        )}
-        {user && <Link to='/cart'>Carts </Link>}
-        <button className={styles.loginBtn} onClick={!user ? login : logout}>
-          {!user ? 'Login' : 'Logout'}
-        </button>
-        {user && <User user={user} />}
-      </nav>
+      <div className={styles.top_bar_wrap}>
+        <div className={styles.top_bar}>
+          <div className={styles.mode}>
+            <button>Dark Mode</button>
+          </div>
+          <div className={styles.user_info}>
+            {user && (
+              <>
+                {user.isAdmin && <Link to='/products/new'>[상품등록]</Link>}
+                환영합니다.
+                <span>{user.displayName || user.email}</span>님
+                <button onClick={logout}>Logout</button>
+              </>
+            )}
+            {!user && (
+              <>
+                로그인하고 더 많은 것을 즐겨보세요!
+                <button>
+                  <Link to='/login'>Login</Link>
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+      <div className={styles.inner}>
+        <h1 className={styles.logo}>
+          <Link to='/'>Sunny React Shop</Link>
+        </h1>
+        <nav>
+          <ul className={styles.nav}>
+            <li>All Products</li>
+            <li>Clothing</li>
+            <li>Acc</li>
+          </ul>
+        </nav>
+        <div className={styles.my_nav}>
+          <button>Search</button>
+          <button>
+            <Link to='/cart'>
+              Cart <span className={styles.cart_num}>5</span>
+            </Link>
+          </button>
+        </div>
+      </div>
     </header>
   );
 }

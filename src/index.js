@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import './stylesheets/index.css';
 import App from './App';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ErrorPage from './pages/ErrorPage';
@@ -9,7 +9,9 @@ import NewProducts from './pages/NewProducts';
 import ProductDetail from './pages/ProductDetail';
 import MyCart from './pages/MyCart';
 import Home from './pages/Home';
+import Login from './pages/Login';
 import ProtectedRoute from './pages/ProtectedRoute';
+import { UserContextProvider } from './context/UserContext';
 
 const router = createBrowserRouter([
   {
@@ -30,9 +32,13 @@ const router = createBrowserRouter([
       { path: '/products/:id', element: <ProductDetail /> },
       {
         path: '/cart',
+        element: <MyCart />,
+      },
+      {
+        path: '/login',
         element: (
-          <ProtectedRoute>
-            <MyCart />
+          <ProtectedRoute isLogin>
+            <Login />
           </ProtectedRoute>
         ),
       },
@@ -43,6 +49,8 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <UserContextProvider>
+      <RouterProvider router={router} />
+    </UserContextProvider>
   </React.StrictMode>
 );

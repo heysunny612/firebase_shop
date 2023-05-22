@@ -1,0 +1,25 @@
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 15px;
+  background-color: var(--color-black);
+  color: var(--color-gray);
+  font-weight: bold;
+}
+
+.button.white {
+  margin-bottom: 10px;
+  background-color: var(--color-gray);
+  color: var(--color-black);
+}
+
+.button:hover {
+  text-decoration: underline;
+}
+
+.button svg {
+  margin-left: 10px;
+  font-size: 18px;
+}
