@@ -1,21 +1,20 @@
-import { v2 as cloudinary } from 'cloudinary';
+export const uploadImageCloudinary = (file) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append(
+    'upload_preset',
+    process.env.REACT_APP_CLOUDINARY_PRESET_NAME
+  );
 
-// Configuration
-cloudinary.config({
-  cloud_name: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.REACT_APP_CLOUDINARY_API_KEY,
-  api_secret: process.env.REACT_APP_CLOUDINARY_API_SECRET,
-});
+  const url =
+    'https://api.cloudinary.com/v1_1/' +
+    process.env.REACT_APP_CLOUDINARY_CLOUD_NAME +
+    '/auto/upload';
 
-export const uploadImage = (imgUrl, imgTitle) => {
-  const res = cloudinary.uploader.upload(imgUrl, { public_id: imgTitle });
-
-  res
-    .then((data) => {
-      console.log(data);
-      console.log(data.secure_url);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  return fetch(url, {
+    method: 'POST',
+    body: formData,
+  })
+    .then((response) => response.json())
+    .then((data) => data.url);
 };

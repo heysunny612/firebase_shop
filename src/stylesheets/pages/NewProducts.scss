@@ -3,15 +3,29 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  padding-top: 200px;
+  padding: 200px 0 100px 0;
+}
+.product_img {
+  margin-bottom: 15px;
+  img {
+    width: 400px;
+  }
 }
 
 .new_product_form {
   width: 50%;
-  background-color: red;
 }
 .new_product_form input {
+  margin-bottom: 10px;
+  padding: 15px;
+  border: 1px solid var(--color-grey-text);
   display: block;
   width: 100%;
+}
+
+.success_text {
+  margin-top: 15px;
+  padding: 4px;
+  background-color: var(--color-black);
+  color: var(--color-white);
 }

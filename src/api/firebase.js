@@ -23,6 +23,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
+const dbRef = ref(getDatabase());
 
 //기존 이메일&패스워드로 회원가입
 export const createUser = async ({ email, password }) => {
@@ -63,7 +64,6 @@ export const authStateObserver = async (setUser, setIsGettingUser) => {
 
 //db에 등록된 admin 아이디와 같은지 true ,false 값이 들어있는 객체반환
 const adminUser = async (user) => {
-  const dbRef = ref(getDatabase());
   return get(child(dbRef, `admins`))
     .then((snapshot) => {
       if (snapshot.exists()) {
@@ -77,22 +77,30 @@ const adminUser = async (user) => {
     .catch(console.error);
 };
 
-//데이터베이스 작성
-
-export const writeNewProduct = ({
-  title,
-  price,
-  category,
-  description,
-  option,
-}) => {
+//파이어 베이스에 PRODUCT 업로드
+export const uploadProductFirebase = async (product, imgURL) => {
   const db = getDatabase();
-  const optionArr = option.split(',');
-  set(ref(db, 'products/' + uuidv4()), {
-    title,
-    price,
-    category,
-    description,
-    optionArr,
+  const id = uuidv4();
+  return await set(ref(db, `products/${id}`), {
+    ...product,
+    id,
+    price: parseInt(product.price),
+    options: product.options.split(','),
+    imgURL,
   });
+};
+
+//파이어 베이스 PRODUCT 읽기
+export const getProductFromFirebase = async () => {
+  return get(child(dbRef, 'products/'))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        return Object.values(snapshot.val());
+      } else {
+        console.log('No data available');
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 };

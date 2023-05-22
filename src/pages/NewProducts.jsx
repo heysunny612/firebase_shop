@@ -1,99 +1,94 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import '../stylesheets/pages/NewProducts.scss';
-import { writeNewProduct } from '../api/firebase';
-import { fill } from '@cloudinary/url-gen/actions/resize';
-import { CloudinaryImage } from '@cloudinary/url-gen';
+import { uploadProductFirebase } from '../api/firebase';
+import Button from '../components/Button/Button';
+import { uploadImageCloudinary } from '../api/cloudinary';
 
 export default function NewProducts() {
-  const [form, setForm] = useState({
-    title: '',
-    price: '',
-    category: '',
-    description: '',
-    option: '',
-  });
-  const [imgFile, setImgFile] = useState('');
-  const imgRef = useRef();
+  const [file, setFile] = useState();
+  const [product, setProduct] = useState({});
+  const [isUploading, setIsUploading] = useState(false);
+  const [success, setSuccess] = useState();
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
-    console.log(form);
+    const { name, value, files } = e.target;
+    if (name === 'file') {
+      setFile(files && files[0]);
+      return;
+    }
+    setProduct((product) => ({ ...product, [name]: value }));
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    writeNewProduct(form);
-    setForm({
-      title: '',
-      price: '',
-      category: '',
-      description: '',
-      option: '',
-    });
+    setIsUploading(true);
+    uploadImageCloudinary(file)
+      .then((imgURL) =>
+        uploadProductFirebase(product, imgURL) //
+          .then(() => {
+            setSuccess('성공적으로 제품이 업로드 되었습니다.');
+            setTimeout(() => {
+              setSuccess(null);
+            }, 2000);
+          })
+      )
+      .finally(() => setIsUploading(false));
+    setProduct({});
   };
-
-  const handleImage = () => {
-    const file = imgRef.current.files[0];
-    const reader = new FileReader();
-    const url = reader.readAsDataURL(file);
-    console.log(file);
-    reader.onloadend = () => {
-      const myImage = new CloudinaryImage(file, {
-        cloudName: 'dazupkved',
-      }).resize(fill().width(100).height(150));
-      setImgFile(myImage);
-    };
-  };
-
   return (
     <div className='new_product_wrap'>
       <h2>새로운 제품 등록</h2>
-      <img src={imgFile} alt='' width='300' />
+      {file && (
+        <div className='product_img'>
+          <img src={URL.createObjectURL(file)} alt='미리보기 사진' />
+        </div>
+      )}
       <form onSubmit={handleSubmit} className='new_product_form'>
         <input
           type='file'
-          name=''
-          placeholder='제품 사진'
+          name='file'
           accept='image/*'
-          onChange={handleImage}
-          ref={imgRef}
+          required
+          onChange={handleChange}
         />
         <input
           type='text'
           name='title'
-          value={form.title}
+          value={product.title ?? ''}
           onChange={handleChange}
           placeholder='제품명'
         />
         <input
           type='number'
           name='price'
-          value={form.price}
+          value={product.price ?? ''}
           onChange={handleChange}
           placeholder='가격'
         />
         <input
           type='text'
           name='category'
-          value={form.category}
+          value={product.category ?? ''}
           onChange={handleChange}
           placeholder='카테고리'
         />
         <input
           type='text'
           name='description'
-          value={form.description}
+          value={product.description ?? ''}
           onChange={handleChange}
           placeholder='제품 설명'
         />
         <input
           type='text'
-          name='option'
-          value={form.option}
+          name='options'
+          value={product.options ?? ''}
           onChange={handleChange}
           placeholder='옵션(콤마(,)로 구분)'
         />
-        <button>등록</button>
+        <Button disabled={isUploading}>
+          {isUploading ? '업로드중...' : '제품 등록하기'}
+        </Button>
       </form>
+      {success && <p className='success_text'>{success}</p>}
     </div>
   );
 }
