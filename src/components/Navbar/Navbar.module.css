@@ -22,8 +22,11 @@
   align-items: center;
   margin: 0 auto;
   max-width: 1200px;
-  height: 32px;
+  padding: 5px 0;
   font-size: 13px;
+}
+.mode svg {
+  font-size: 20px;
 }
 .user_info > span {
   margin-left: 5px;
@@ -80,4 +83,66 @@
   height: 30px;
   border-radius: 50%;
   line-height: 30px;
+}
+
+.toggle_button {
+  display: none;
+}
+
+@media screen and (max-width: 1400px) {
+  .inner,
+  .top_bar {
+    width: 97%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .inner {
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+  }
+  .nav {
+    margin-top: 15px;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    display: none;
+  }
+  .nav li {
+    text-align: center;
+    width: 100%;
+  }
+  .nav a {
+    display: block;
+    padding: 10px;
+    width: 100%;
+  }
+  .nav a:hover {
+    background-color: var(--color-accent);
+  }
+  .my_nav {
+    justify-content: center;
+    padding: 10px 0;
+    width: 100%;
+    display: none;
+  }
+
+  .toggle_button {
+    display: block;
+    position: absolute;
+    top: 25px;
+    right: 0;
+  }
+  .toggle_button svg {
+    font-size: 25px;
+  }
+  .active {
+    display: flex;
+  }
+}
+@media screen and (max-width: 640px) {
+  .user_txt {
+    display: none;
+  }
 }

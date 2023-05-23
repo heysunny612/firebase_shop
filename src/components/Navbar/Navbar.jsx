@@ -2,21 +2,28 @@ import styles from './Navbar.module.css';
 import { Link } from 'react-router-dom';
 import { useUserContext } from '../../context/UserContext';
 import { logout } from '../../api/firebase';
+import { useState } from 'react';
+import { GrClose, GrMenu } from 'react-icons/gr';
+import { MdDarkMode, MdLightMode } from 'react-icons/md';
 
 export default function Navbar() {
   const { user } = useUserContext();
+  const [toggleBtn, setToggleBtn] = useState(false);
+  const closeToggleMenu = () => setToggleBtn(false);
   return (
     <header className={styles.header}>
       <div className={styles.top_bar_wrap}>
         <div className={styles.top_bar}>
           <div className={styles.mode}>
-            <button>Dark Mode</button>
+            <button>
+              <MdDarkMode /> <MdLightMode />
+            </button>
           </div>
           <div className={styles.user_info}>
             {user && (
               <>
                 {user.isAdmin && <Link to='/products/new'>[상품등록]</Link>}
-                환영합니다.
+                <span className={styles.user_txt}>환영합니다.</span>
                 <span>{user.displayName || user.email}</span>님
                 <button onClick={logout}>Logout</button>
               </>
@@ -34,16 +41,30 @@ export default function Navbar() {
       </div>
       <div className={styles.inner}>
         <h1 className={styles.logo}>
-          <Link to='/'>Sunny React Shop</Link>
+          <Link to='/' onClick={closeToggleMenu}>
+            Sunny React Shop
+          </Link>
         </h1>
-        <nav>
-          <ul className={styles.nav}>
-            <li>All Products</li>
-            <li>Clothing</li>
-            <li>Acc</li>
-          </ul>
-        </nav>
-        <div className={styles.my_nav}>
+        <ul
+          className={
+            toggleBtn ? `${styles.nav} ${styles.active}` : `${styles.nav}`
+          }
+        >
+          <li>
+            <Link to='/'>All Products</Link>
+          </li>
+          <li>
+            <Link to='/'>Clothing</Link>
+          </li>
+          <li>
+            <Link to='/'>Acc</Link>
+          </li>
+        </ul>
+        <div
+          className={
+            toggleBtn ? `${styles.my_nav} ${styles.active}` : `${styles.my_nav}`
+          }
+        >
           <button>Search</button>
           <button>
             <Link to='/cart'>
@@ -51,6 +72,12 @@ export default function Navbar() {
             </Link>
           </button>
         </div>
+        <button
+          className={styles.toggle_button}
+          onClick={() => setToggleBtn(!toggleBtn)}
+        >
+          {toggleBtn ? <GrClose /> : <GrMenu />}
+        </button>
       </div>
     </header>
   );

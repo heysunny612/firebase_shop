@@ -1,11 +1,10 @@
 .login_area {
-  margin: 0 auto;
+  margin: 50px auto 0;
   width: 400px;
 
   .login_box {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     height: 100vh;
 
@@ -26,5 +25,11 @@
       font-size: 14px;
       text-decoration: underline;
     }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .login_area {
+    width: 97%;
   }
 }

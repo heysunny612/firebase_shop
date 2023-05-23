@@ -2,6 +2,7 @@ import Navbar from './components/Navbar/Navbar';
 import { Outlet } from 'react-router-dom';
 import { useUserContext } from './context/UserContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Footer from './components/Footer/Footer';
 
 function App() {
   const { isGettingUser } = useUserContext();
@@ -14,6 +15,7 @@ function App() {
         <>
           <Navbar />
           <Outlet />
+          <Footer />
         </>
       )}
     </QueryClientProvider>
