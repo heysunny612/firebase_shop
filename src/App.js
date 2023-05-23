@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { useUserContext } from './context/UserContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Footer from './components/Footer/Footer';
+import { CartContextProvider } from './context/CartContext';
 
 function App() {
   const { isGettingUser } = useUserContext();
@@ -13,8 +14,10 @@ function App() {
         '로딩중입니다'
       ) : (
         <>
-          <Navbar />
-          <Outlet />
+          <CartContextProvider>
+            <Navbar />
+            <Outlet />
+          </CartContextProvider>
           <Footer />
         </>
       )}

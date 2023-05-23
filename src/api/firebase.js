@@ -7,7 +7,7 @@ import {
   signInWithPopup,
   signOut,
 } from 'firebase/auth';
-import { getDatabase, ref, child, get, set } from 'firebase/database';
+import { getDatabase, ref, child, get, set, remove } from 'firebase/database';
 import { v4 as uuidv4 } from 'uuid';
 
 const firebaseConfig = {
@@ -24,6 +24,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const dbRef = ref(getDatabase());
+const db = getDatabase();
 
 //기존 이메일&패스워드로 회원가입
 export const createUser = async ({ email, password }) => {
@@ -79,7 +80,6 @@ const adminUser = async (user) => {
 
 //파이어 베이스에 PRODUCT 업로드
 export const uploadProductFirebase = async (product, imgURL) => {
-  const db = getDatabase();
   const id = uuidv4();
   return await set(ref(db, `products/${id}`), {
     ...product,
@@ -103,4 +103,29 @@ export const getProductFromFirebase = async () => {
     .catch((error) => {
       console.error(error);
     });
+};
+
+//파이어 베이스에 CART 업로드
+export const uploadCartFirebase = async (userId, product) => {
+  return await set(ref(db, `cart/${userId}/${product.id}`), product);
+};
+
+//파이어 베이스 CART 읽기
+export const getCartFromFirebase = async (user) => {
+  return get(child(dbRef, `cart/${user.uid}/`))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        const items = snapshot.val() || {};
+        return Object.values(items);
+      } else {
+        console.log('No data available');
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
+
+export const removeFromCart = (userId, productId) => {
+  return remove(ref(db, `cart/${userId}/${productId}`));
 };

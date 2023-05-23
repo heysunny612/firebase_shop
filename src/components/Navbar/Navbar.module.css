@@ -63,8 +63,25 @@
   font-size: 14px;
 }
 .nav li {
+  position: relative;
   margin: 0 30px;
 }
+
+.nav li::before {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  background-color: var(--color-accent);
+  width: 0;
+  height: 4px;
+}
+
+.nav li:hover::before {
+  display: block;
+  width: 100%;
+  transition: all 300ms ease-in;
+}
+
 .my_nav {
   display: flex;
 }
@@ -120,6 +137,9 @@
   }
   .nav a:hover {
     background-color: var(--color-accent);
+  }
+  .nav li::before {
+    display: none !important;
   }
   .my_nav {
     justify-content: center;

@@ -9,7 +9,9 @@ export const UserContextProvider = ({ children }) => {
     authStateObserver(setUser, setIsGettingUser);
   }, [setUser]);
   return (
-    <UserContext.Provider value={{ user, setUser, isGettingUser }}>
+    <UserContext.Provider
+      value={{ user, uid: user && user.uid, setUser, isGettingUser }}
+    >
       {children}
     </UserContext.Provider>
   );

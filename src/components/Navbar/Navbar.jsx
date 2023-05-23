@@ -5,11 +5,22 @@ import { logout } from '../../api/firebase';
 import { useState } from 'react';
 import { GrClose, GrMenu } from 'react-icons/gr';
 import { MdDarkMode, MdLightMode } from 'react-icons/md';
+import { useCartContext } from '../../context/CartContext';
+import { useEffect } from 'react';
+import { getCartFromFirebase } from '../../api/firebase';
 
 export default function Navbar() {
   const { user } = useUserContext();
+  const { cartNum, setCartNum } = useCartContext();
   const [toggleBtn, setToggleBtn] = useState(false);
   const closeToggleMenu = () => setToggleBtn(false);
+
+  useEffect(() => {
+    user &&
+      getCartFromFirebase(user).then((products) => {
+        setCartNum(products ? products.length : 0);
+      });
+  }, [setCartNum, user]);
   return (
     <header className={styles.header}>
       <div className={styles.top_bar_wrap}>
@@ -68,7 +79,8 @@ export default function Navbar() {
           <button>Search</button>
           <button>
             <Link to='/cart'>
-              Cart <span className={styles.cart_num}>5</span>
+              Cart{' '}
+              <span className={styles.cart_num}>{user ? `${cartNum}` : 0}</span>
             </Link>
           </button>
         </div>
