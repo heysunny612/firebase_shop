@@ -10,17 +10,16 @@ import { useEffect } from 'react';
 import { getCartFromFirebase } from '../../api/firebase';
 
 export default function Navbar() {
-  const { user } = useUserContext();
+  const { user, uid } = useUserContext();
   const { cartNum, setCartNum } = useCartContext();
   const [toggleBtn, setToggleBtn] = useState(false);
   const closeToggleMenu = () => setToggleBtn(false);
-
   useEffect(() => {
-    user &&
-      getCartFromFirebase(user).then((products) => {
+    uid &&
+      getCartFromFirebase(uid).then((products) => {
         setCartNum(products ? products.length : 0);
       });
-  }, [setCartNum, user]);
+  }, [uid, setCartNum]);
   return (
     <header className={styles.header}>
       <div className={styles.top_bar_wrap}>
@@ -79,7 +78,7 @@ export default function Navbar() {
           <button>Search</button>
           <button>
             <Link to='/cart'>
-              Cart{' '}
+              Cart
               <span className={styles.cart_num}>{user ? `${cartNum}` : 0}</span>
             </Link>
           </button>

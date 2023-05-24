@@ -92,6 +92,11 @@
   color: var(--color-grey-text);
   font-size: 14px;
 }
+
+.toggle_button {
+  display: none;
+}
+
 .cart_num {
   display: inline-block;
   margin-left: 7px;
@@ -100,10 +105,6 @@
   height: 30px;
   border-radius: 50%;
   line-height: 30px;
-}
-
-.toggle_button {
-  display: none;
 }
 
 @media screen and (max-width: 1400px) {

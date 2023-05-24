@@ -111,8 +111,8 @@ export const uploadCartFirebase = async (userId, product) => {
 };
 
 //파이어 베이스 CART 읽기
-export const getCartFromFirebase = async (user) => {
-  return get(child(dbRef, `cart/${user.uid}/`))
+export const getCartFromFirebase = async (userId) => {
+  return get(child(dbRef, `cart/${userId}/`))
     .then((snapshot) => {
       if (snapshot.exists()) {
         const items = snapshot.val() || {};
@@ -126,6 +126,6 @@ export const getCartFromFirebase = async (user) => {
     });
 };
 
-export const removeFromCart = (userId, productId) => {
-  return remove(ref(db, `cart/${userId}/${productId}`));
+export const removeFromCart = async (userId, productId) => {
+  return await remove(ref(db, `cart/${userId}/${productId}`));
 };
