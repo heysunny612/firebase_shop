@@ -1,22 +1,21 @@
 import React from 'react';
 import { AiOutlinePlusSquare, AiOutlineMinusSquare } from 'react-icons/ai';
 import { BsTrashFill } from 'react-icons/bs';
-import { removeFromCart, uploadCartFirebase } from '../../api/firebase';
 import styles from './CartItem.module.css';
+import useCart from '../../hooks/useCart';
 export default function CartItem({
-  uid,
   product,
   product: { id, title, price, imgURL, options, quantity },
 }) {
+  const { addOrUpdateItem, removeItem } = useCart();
   const handleMinus = () => {
     if (quantity < 2) return;
-    uploadCartFirebase(uid, { ...product, quantity: quantity - 1 });
+    addOrUpdateItem.mutate({ ...product, quantity: quantity - 1 });
   };
   const handlePlus = () => {
-    uploadCartFirebase(uid, { ...product, quantity: quantity + 1 });
+    addOrUpdateItem.mutate({ ...product, quantity: quantity + 1 });
   };
-  const handleDelete = () => removeFromCart(uid, id);
-
+  const handleDelete = () => removeItem.mutate(id);
   return (
     <li className={styles.cart_list}>
       <div className={styles.cart_img}>

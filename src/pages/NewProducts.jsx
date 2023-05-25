@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import '../stylesheets/pages/NewProducts.scss';
-import { uploadProductFirebase } from '../api/firebase';
 import Button from '../components/Button/Button';
 import { uploadImageCloudinary } from '../api/cloudinary';
+import useProducts from '../hooks/useProducts';
 
 export default function NewProducts() {
   const [file, setFile] = useState();
   const [product, setProduct] = useState({});
   const [isUploading, setIsUploading] = useState(false);
   const [success, setSuccess] = useState();
+  const { addProduct } = useProducts();
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (name === 'file') {
@@ -21,15 +22,19 @@ export default function NewProducts() {
     e.preventDefault();
     setIsUploading(true);
     uploadImageCloudinary(file)
-      .then((imgURL) =>
-        uploadProductFirebase(product, imgURL) //
-          .then(() => {
-            setSuccess('성공적으로 제품이 업로드 되었습니다.');
-            setTimeout(() => {
-              setSuccess(null);
-            }, 2000);
-          })
-      )
+      .then((imgURL) => {
+        addProduct.mutate(
+          { product, imgURL },
+          {
+            onSuccess: () => {
+              setSuccess('성공적으로 제품이 업로드 되었습니다.');
+              setTimeout(() => {
+                setSuccess(null);
+              }, 2000);
+            },
+          }
+        );
+      })
       .finally(() => setIsUploading(false));
     setProduct({});
   };

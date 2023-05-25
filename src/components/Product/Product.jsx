@@ -1,15 +1,11 @@
-import { getProductFromFirebase } from '../../api/firebase';
 import ProductCard from './ProductCard/ProductCard';
-import { useQuery } from '@tanstack/react-query';
 import styles from './Product.module.css';
+import useProducts from '../../hooks/useProducts';
 
 export default function Product() {
   const {
-    isLoading,
-    error,
-    data: products,
-  } = useQuery(['products'], getProductFromFirebase);
-
+    productsQuery: { isLoading, error, data: products },
+  } = useProducts();
   return (
     <section className='common_inner'>
       {isLoading && <p>로딩중입니다</p>}

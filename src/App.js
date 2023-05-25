@@ -4,6 +4,7 @@ import { useUserContext } from './context/UserContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Footer from './components/Footer/Footer';
 import { CartContextProvider } from './context/CartContext';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 function App() {
   const { isGettingUser } = useUserContext();
@@ -21,6 +22,7 @@ function App() {
           <Footer />
         </>
       )}
+      <ReactQueryDevtools initialIsOpen={true} />
     </QueryClientProvider>
   );
 }
