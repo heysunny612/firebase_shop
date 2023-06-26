@@ -1,26 +1,17 @@
-import React from 'react';
-import styles from './ProductCard.module.css';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import styles from "./ProductCard.module.css";
+import { useNavigate } from "react-router-dom";
 
-export default function ProductCard({
-  productInfo,
-  productInfo: { id, title, price, description, imgURL, category },
-}) {
-  const navigate = useNavigate();
-  const handleClick = () => {
-    navigate(`/products/${id}`, {
-      state: { productInfo },
-    });
-  };
+export default function ProductCard() {
   return (
-    <li className={styles.product} onClick={handleClick} role='button'>
+    <li className={styles.product} ole="button">
       <div className={styles.img_box}>
-        <img src={imgURL} alt={title} />
-        <p className={styles.description}>{description}</p>
+        <img />
+        <p className={styles.description}></p>
       </div>
-      <h3 className={styles.h3}>{title}</h3>
-      <p>{`${price.toLocaleString()}원`}</p>
-      <p className={styles.category}>{category}</p>
+      <h3 className={styles.h3}></h3>
+      <p></p>
+      <p className={styles.category}></p>
     </li>
   );
 }

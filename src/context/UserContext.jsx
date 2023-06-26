@@ -1,20 +1,16 @@
-import { createContext, useContext, useState, useEffect } from 'react';
-import { authStateObserver } from '../api/firebase';
-const UserContext = createContext();
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { authState } from "../api/firebase";
 
-export const UserContextProvider = ({ children }) => {
+const UserContext = createContext(null);
+
+export default function UserContextProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [isGettingUser, setIsGettingUser] = useState(false);
   useEffect(() => {
-    authStateObserver(setUser, setIsGettingUser);
-  }, [setUser]);
+    authState(setUser);
+  }, []);
   return (
-    <UserContext.Provider
-      value={{ user, uid: user && user.uid, setUser, isGettingUser }}
-    >
-      {children}
-    </UserContext.Provider>
+    <UserContext.Provider value={{ user }}>{children}</UserContext.Provider>
   );
-};
+}
 
 export const useUserContext = () => useContext(UserContext);

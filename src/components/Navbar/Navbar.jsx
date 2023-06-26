@@ -1,19 +1,16 @@
-import styles from './Navbar.module.css';
-import { Link } from 'react-router-dom';
-import { useUserContext } from '../../context/UserContext';
-import { logout } from '../../api/firebase';
-import { useState } from 'react';
-import { GrClose, GrMenu } from 'react-icons/gr';
-import { MdDarkMode, MdLightMode } from 'react-icons/md';
-import useCart from '../../hooks/useCart';
+import styles from "./Navbar.module.css";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { GrClose, GrMenu } from "react-icons/gr";
+import { MdDarkMode, MdLightMode } from "react-icons/md";
+import { logout } from "../../api/firebase";
+import { useUserContext } from "../../context/UserContext";
 
 export default function Navbar() {
   const { user } = useUserContext();
   const [toggleBtn, setToggleBtn] = useState(false);
   const closeToggleMenu = () => setToggleBtn(false);
-  const {
-    cartQuery: { data: products },
-  } = useCart();
+  const navigate = useNavigate();
   return (
     <header className={styles.header}>
       <div className={styles.top_bar_wrap}>
@@ -24,20 +21,17 @@ export default function Navbar() {
             </button>
           </div>
           <div className={styles.user_info}>
-            {user && (
+            <Link to="/products/new">[상품등록]</Link>
+            {user ? (
               <>
-                {user.isAdmin && <Link to='/products/new'>[상품등록]</Link>}
                 <span className={styles.user_txt}>환영합니다.</span>
-                <span>{user.displayName || user.email}</span>님
-                <button onClick={logout}>Logout</button>
+                <span>{user.displayName}</span>님
+                <button onClick={() => logout()}>Logout</button>
               </>
-            )}
-            {!user && (
+            ) : (
               <>
                 로그인하고 더 많은 것을 즐겨보세요!
-                <button>
-                  <Link to='/login'>Login</Link>
-                </button>
+                <button onClick={() => navigate("/login")}>Login</button>
               </>
             )}
           </div>
@@ -45,8 +39,8 @@ export default function Navbar() {
       </div>
       <div className={styles.inner}>
         <h1 className={styles.logo}>
-          <Link to='/' onClick={closeToggleMenu}>
-            Sunny React Shop
+          <Link to="/" onClick={closeToggleMenu}>
+            Sunny Shoppy
           </Link>
         </h1>
         <ul
@@ -55,13 +49,13 @@ export default function Navbar() {
           }
         >
           <li>
-            <Link to='/'>All Products</Link>
+            <Link to="/">All Products</Link>
           </li>
           <li>
-            <Link to='/'>Clothing</Link>
+            <Link to="/">Clothing</Link>
           </li>
           <li>
-            <Link to='/'>Acc</Link>
+            <Link to="/">Acc</Link>
           </li>
         </ul>
         <div
@@ -71,12 +65,9 @@ export default function Navbar() {
         >
           <button>Search</button>
           <button>
-            <Link to='/cart'>
+            <Link to="/cart">
               Cart
-              <span className={styles.cart_num}>
-                {products && products.length}
-                {!products && 0}
-              </span>
+              <span className={styles.cart_num}>0</span>
             </Link>
           </button>
         </div>
