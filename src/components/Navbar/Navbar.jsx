@@ -21,11 +21,11 @@ export default function Navbar() {
             </button>
           </div>
           <div className={styles.user_info}>
-            <Link to="/products/new">[상품등록]</Link>
+            {user?.admin && <Link to="/products/new">[상품등록]</Link>}
             {user ? (
               <>
                 <span className={styles.user_txt}>환영합니다.</span>
-                <span>{user.displayName}</span>님
+                <span>{user.displayName || user.email}</span>님
                 <button onClick={() => logout()}>Logout</button>
               </>
             ) : (

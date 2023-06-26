@@ -8,6 +8,7 @@ import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
 } from "firebase/auth";
+import { getDatabase, ref, onValue, get, child } from "firebase/database";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -22,6 +23,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
+const database = getDatabase(app);
 
 //구글로 로그인
 export const loginWithSocial = () => {
@@ -51,7 +53,19 @@ export const loginWithEamil = ({ email, password }) => {
 
 //로그인 상태 유지
 export const authState = (setUser) => {
-  onAuthStateChanged(auth, (user) => {
-    setUser(user);
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      const admins = await getAdmin();
+      const isAdmin = user && admins.includes(user.uid);
+      setUser({ ...user, admin: isAdmin });
+    }
   });
+};
+
+//어드민 설정
+export const getAdmin = async () => {
+  const dbRef = ref(getDatabase());
+  return get(child(dbRef, `admins`))
+    .then((snapshot) => Object.values(snapshot.val()).map((value) => value))
+    .catch(console.error);
 };
