@@ -8,7 +8,8 @@ import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
 } from "firebase/auth";
-import { getDatabase, ref, onValue, get, child } from "firebase/database";
+import { getDatabase, ref, get, child, set, update } from "firebase/database";
+import { v4 as uuidv4 } from "uuid";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -23,7 +24,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
-const database = getDatabase(app);
+const db = getDatabase(app);
 
 //구글로 로그인
 export const loginWithSocial = () => {
@@ -54,18 +55,39 @@ export const loginWithEamil = ({ email, password }) => {
 //로그인 상태 유지
 export const authState = (setUser) => {
   onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      const admins = await getAdmin();
-      const isAdmin = user && admins.includes(user.uid);
-      setUser({ ...user, admin: isAdmin });
-    }
+    const updatedUser = user ? await getAdmin(user) : null;
+    setUser(updatedUser);
   });
 };
 
-//어드민 설정
-export const getAdmin = async () => {
+//어드민 데이터 가져오기
+const getAdmin = async (user) => {
   const dbRef = ref(getDatabase());
   return get(child(dbRef, `admins`))
-    .then((snapshot) => Object.values(snapshot.val()).map((value) => value))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        const admins = Object.values(snapshot.val()).map((value) => value);
+        const isAdmin = admins.includes(user.uid);
+        return { ...user, isAdmin };
+      }
+      return user;
+    })
+    .catch(console.error);
+};
+
+//새로운 상품등록
+export const createNewProduct = async (product, image) => {
+  const id = uuidv4();
+  set(ref(db, `products/${id}`), {
+    ...product,
+    id,
+    image,
+    options: product.options.split(","),
+    price: parseInt(product.price),
+  })
+    .then(() => {
+      // Data saved successfully!
+      console.log("성공");
+    })
     .catch(console.error);
 };

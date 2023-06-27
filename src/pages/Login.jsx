@@ -7,7 +7,7 @@ import {
   loginWithEamil,
   loginWithSocial,
 } from "../api/firebase";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { useUserContext } from "../context/UserContext";
 
 export default function Login() {
@@ -26,7 +26,7 @@ export default function Login() {
 
   useEffect(() => {
     if (user) {
-      navigate("/");
+      navigate("/", { replace: true });
     }
   }, [user]);
 

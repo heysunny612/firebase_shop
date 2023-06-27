@@ -21,7 +21,7 @@ export default function Navbar() {
             </button>
           </div>
           <div className={styles.user_info}>
-            {user?.admin && <Link to="/products/new">[상품등록]</Link>}
+            {user?.isAdmin && <Link to="/products/new">[상품등록]</Link>}
             {user ? (
               <>
                 <span className={styles.user_txt}>환영합니다.</span>
@@ -64,12 +64,14 @@ export default function Navbar() {
           }
         >
           <button>Search</button>
-          <button>
-            <Link to="/cart">
-              Cart
-              <span className={styles.cart_num}>0</span>
-            </Link>
-          </button>
+          {user && (
+            <button>
+              <Link to="/cart">
+                Cart
+                <span className={styles.cart_num}>0</span>
+              </Link>
+            </button>
+          )}
         </div>
         <button
           className={styles.toggle_button}

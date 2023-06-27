@@ -1,22 +1,63 @@
-import React, { useState } from "react";
 import "../stylesheets/pages/NewProducts.scss";
 import Button from "../components/Button/Button";
+import { useForm } from "react-hook-form";
+import { createNewProduct } from "../api/firebase";
+import { useState } from "react";
+import { uploadImageCloudinary } from "../api/cloudinary";
 
 export default function NewProducts() {
+  const { register, handleSubmit, watch } = useForm();
+  const [imgURL, setImgURL] = useState(null);
+
+  const onSubmit = (data) => {
+    uploadImageCloudinary(imgURL).then((url) => createNewProduct(data, url));
+  };
+
+  const handleImage = (event) => {
+    const imgFile = event.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(imgFile);
+    reader.onload = (e) => {
+      setImgURL(e.target.result);
+    };
+  };
+
   return (
     <div className="new_product_wrap">
       <h2>새로운 제품 등록</h2>
-
-      <div className="product_img"></div>
-
-      <form className="new_product_form">
-        <input type="file" name="file" accept="image/*" />
-        <input type="text" name="title" />
-        <input type="number" name="price" />
-        <input type="text" name="category" />
-        <input type="text" name="description" />
-        <input type="text" name="options" />
-        <Button></Button>
+      {imgURL && (
+        <div className="product_img">
+          <img src={imgURL} alt="상품 이미지미리보기" />
+        </div>
+      )}
+      <form className="new_product_form" onSubmit={handleSubmit(onSubmit)}>
+        <input type="file" accept="image/*" onChange={handleImage} required />
+        <input
+          type="text"
+          placeholder="제품명"
+          {...register("title", { required: true })}
+        />
+        <input
+          type="number"
+          placeholder="가격"
+          {...register("price", { required: true })}
+        />
+        <input
+          type="text"
+          placeholder="카테고리"
+          {...register("category", { required: true })}
+        />
+        <input
+          type="text"
+          placeholder="제품정보"
+          {...register("description", { required: true })}
+        />
+        <input
+          type="text"
+          placeholder="(,)를 사용하여 옵션을 등록해주세요"
+          {...register("options", { required: true })}
+        />
+        <Button>제품등록</Button>
       </form>
       <p className="success_text"></p>
     </div>

@@ -1,20 +1,12 @@
-import { Navigate } from 'react-router-dom';
-import { useUserContext } from '../context/UserContext';
+import React from "react";
+import { Navigate } from "react-router-dom";
+import { useUserContext } from "../context/UserContext";
 
-export default function ProtectedRoute({ requireAdmin, isLogin, children }) {
+export default function ProtectedRoute({ requireAdmin, children }) {
   const { user } = useUserContext();
 
-  if (requireAdmin) {
-    if (!user || (requireAdmin && !user.isAdmin)) {
-      return <Navigate to='/' replace />;
-    }
-    return children;
+  if (!user || (requireAdmin && !user.isAdmin)) {
+    return <Navigate to="/" replace />;
   }
-  if (isLogin) {
-    if (user) {
-      return <Navigate to='/' />;
-    }
-  }
-
-  return <>{children}</>;
+  return children;
 }
