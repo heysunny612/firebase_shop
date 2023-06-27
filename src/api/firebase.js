@@ -78,16 +78,27 @@ const getAdmin = async (user) => {
 //새로운 상품등록
 export const createNewProduct = async (product, image) => {
   const id = uuidv4();
-  set(ref(db, `products/${id}`), {
+  return await set(ref(db, `products/${id}`), {
     ...product,
     id,
     image,
     options: product.options.split(","),
     price: parseInt(product.price),
-  })
-    .then(() => {
-      // Data saved successfully!
-      console.log("성공");
+    createdAt: Date.now(),
+  }).catch(console.error);
+};
+
+//상품 가져오기
+export const getProducts = async () => {
+  const dbRef = ref(getDatabase());
+  return await get(child(dbRef, `products`))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        const products = Object.values(snapshot.val()).map((value) => value);
+        return products.sort((a, b) => b.createdAt - a.createdAt);
+      } else {
+        return [];
+      }
     })
     .catch(console.error);
 };

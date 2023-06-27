@@ -8,7 +8,6 @@ export default function UserContextProvider({ children }) {
   useEffect(() => {
     authState(setUser);
   }, []);
-  console.log(user);
   return (
     <UserContext.Provider value={{ user }}>{children}</UserContext.Provider>
   );

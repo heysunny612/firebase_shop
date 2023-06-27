@@ -1,4 +1,4 @@
-export const uploadImageCloudinary = (file) => {
+export const uploadImageCloudinary = async (file) => {
   const formData = new FormData();
   formData.append("file", file);
   formData.append(
@@ -11,10 +11,10 @@ export const uploadImageCloudinary = (file) => {
     process.env.REACT_APP_CLOUDINARY_CLOUD_NAME +
     "/auto/upload";
 
-  return fetch(url, {
+  const response = await fetch(url, {
     method: "POST",
     body: formData,
-  })
-    .then((response) => response.json())
-    .then((data) => data.url);
+  });
+  const data = await response.json();
+  return data.url;
 };

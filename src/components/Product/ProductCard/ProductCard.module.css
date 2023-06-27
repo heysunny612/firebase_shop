@@ -5,6 +5,7 @@
   overflow: hidden;
   line-height: 24px;
   transition: all 200ms ease-in;
+  margin-bottom: 2rem;
 }
 .product:hover {
   transform: scale(1.02);
@@ -12,6 +13,8 @@
 .product img {
   width: 100%;
   border-radius: 10px;
+  height: 100%;
+  object-fit: cover;
 }
 
 h3 {
@@ -21,6 +24,7 @@ h3 {
 .img_box {
   position: relative;
   overflow: hidden;
+  height: 400px;
 }
 .description {
   transition: all 300ms ease-out;

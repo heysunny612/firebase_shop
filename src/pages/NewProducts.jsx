@@ -6,11 +6,26 @@ import { useState } from "react";
 import { uploadImageCloudinary } from "../api/cloudinary";
 
 export default function NewProducts() {
-  const { register, handleSubmit, watch } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const [imgURL, setImgURL] = useState(null);
+  const [isUploding, setIsUploding] = useState(false);
+  const [uploadText, setUploadText] = useState("");
 
   const onSubmit = (data) => {
-    uploadImageCloudinary(imgURL).then((url) => createNewProduct(data, url));
+    setIsUploding(true);
+    uploadImageCloudinary(imgURL)
+      .then((url) => {
+        createNewProduct(data, url) //
+          .then(() => {
+            setUploadText("성공적으로 제품이 추가 되었습니다.");
+            setTimeout(() => {
+              setUploadText("");
+            }, 4000);
+          });
+      })
+      .finally(() => setIsUploding(false));
+    reset();
+    setImgURL(null);
   };
 
   const handleImage = (event) => {
@@ -57,9 +72,11 @@ export default function NewProducts() {
           placeholder="(,)를 사용하여 옵션을 등록해주세요"
           {...register("options", { required: true })}
         />
-        <Button>제품등록</Button>
+        <Button disabled={isUploding}>
+          {isUploding ? "업로드중..." : "제품등록"}
+        </Button>
       </form>
-      <p className="success_text"></p>
+      {uploadText && <p className="success_text">✅ {uploadText}</p>}
     </div>
   );
 }

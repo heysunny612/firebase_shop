@@ -1,5 +1,6 @@
-import React from 'react';
+import React from "react";
+import styles from "./Footer.module.css";
 
 export default function Footer() {
-  return <div>푸터입니다</div>;
+  return <footer className={styles.footer}>푸터입니다</footer>;
 }
