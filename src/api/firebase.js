@@ -8,7 +8,15 @@ import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
 } from "firebase/auth";
-import { getDatabase, ref, get, child, set, update } from "firebase/database";
+import {
+  getDatabase,
+  ref,
+  get,
+  child,
+  set,
+  update,
+  remove,
+} from "firebase/database";
 import { v4 as uuidv4 } from "uuid";
 
 const firebaseConfig = {
@@ -101,4 +109,25 @@ export const getProducts = async () => {
       }
     })
     .catch(console.error);
+};
+
+//장바구니 추가하기
+export const addCart = async (uid, product) => {
+  return await set(ref(db, `cart/${uid}/${product.id}`), product) //
+    .catch(console.error);
+};
+
+//장바구니 가져오기
+export const getCartItems = async (uid) => {
+  const dbRef = ref(getDatabase());
+  return await get(child(dbRef, `cart/${uid}`))
+    .then((snapshot) => {
+      const items = snapshot.val() || [];
+      return Object.values(items);
+    })
+    .catch(console.error);
+};
+
+export const deleteCartItem = async (uid, productId) => {
+  return remove(ref(db, `cart/${uid}/${productId}`));
 };

@@ -2,15 +2,29 @@ import "../stylesheets/pages/ProductDetail.scss";
 import Button from "../components/Button/Button";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
+import { useUserContext } from "../context/UserContext";
+import { addCart, getCartItems } from "../api/firebase";
 
 export default function ProductDetail() {
+  const { uid } = useUserContext();
+  const [cartText, setCartText] = useState("");
   const {
     state: {
-      product: { image, title, id, price, options, description },
+      product,
+      product: { image, title, price, options, description },
     },
   } = useLocation();
   const [selected, setSelected] = useState(options && options[0]);
   const handleChage = (e) => setSelected(e.target.value);
+
+  const handleAddCart = () => {
+    addCart(uid, { ...product, options: selected, quantity: 1 }).then(() => {
+      setCartText("장바구니에 추가되었습니다");
+      setTimeout(() => {
+        setCartText("");
+      }, 3000);
+    });
+  };
   return (
     <div className="common_inner">
       <section className="product_detail_wrap">
@@ -36,8 +50,10 @@ export default function ProductDetail() {
           </p>
           <p className="detail_desc">"{description}"</p>
           <Button>BUY IT NOW</Button>
-          <Button type="white">CART</Button>
-          <p className="success_text"></p>
+          <Button type="white" onClick={handleAddCart}>
+            CART
+          </Button>
+          {cartText && <p className="success_text">{cartText}</p>}
         </div>
       </section>
     </div>

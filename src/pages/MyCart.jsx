@@ -1,21 +1,24 @@
 import CartItem from "../components/CartItem/CartItem";
+import { useCartContext } from "../context/CartContext";
 import "../stylesheets/pages/MyCart.scss";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { FaEquals } from "react-icons/fa";
 
 export default function MyCart() {
+  const { cartItems } = useCartContext();
+
   return (
     <div className="common_inner">
       <h2>My Cart</h2>
       <div className="mycart_area">
         <ul className="mycart_items">
-          {/* {cartProducts.map((product) => (
-            <CartItem key={product.id} product={product} />
-          ))} */}
+          {cartItems.map((item) => (
+            <CartItem key={item.id} product={item} />
+          ))}
         </ul>
         <div className="mycart_price_box">
           <p>
-            상품총액 <span>원</span>
+            상품총액 <span>{totalPrice(cartItems)}원</span>
           </p>
           <p>
             <AiFillPlusCircle />
@@ -31,7 +34,13 @@ export default function MyCart() {
           </p>
         </div>
       </div>
-      )}
     </div>
   );
 }
+
+const totalPrice = (cartItems) => {
+  return cartItems.reduce((prev, next) => {
+    console.log(prev, next.price);
+    return prev + next.price;
+  }, 0);
+};

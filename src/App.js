@@ -6,15 +6,14 @@ import Footer from "./components/Footer/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
-  const queryClient = new QueryClient();
   return (
-    <QueryClientProvider client={queryClient}>
+    <>
       <ScrollToTop />
       <Navbar />
       <Outlet />
       <Footer />
       <ReactQueryDevtools initialIsOpen={true} />
-    </QueryClientProvider>
+    </>
   );
 }
 

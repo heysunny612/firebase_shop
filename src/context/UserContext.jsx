@@ -9,7 +9,9 @@ export default function UserContextProvider({ children }) {
     authState(setUser);
   }, []);
   return (
-    <UserContext.Provider value={{ user }}>{children}</UserContext.Provider>
+    <UserContext.Provider value={{ user, uid: user && user.uid }}>
+      {children}
+    </UserContext.Provider>
   );
 }
 

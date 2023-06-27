@@ -5,12 +5,16 @@ import { GrClose, GrMenu } from "react-icons/gr";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 import { logout } from "../../api/firebase";
 import { useUserContext } from "../../context/UserContext";
+import { useCartContext } from "../../context/CartContext";
 
 export default function Navbar() {
   const { user } = useUserContext();
+  const { cartItems } = useCartContext();
   const [toggleBtn, setToggleBtn] = useState(false);
   const closeToggleMenu = () => setToggleBtn(false);
   const navigate = useNavigate();
+
+  console.log(cartItems);
   return (
     <header className={styles.header}>
       <div className={styles.top_bar_wrap}>
@@ -68,7 +72,9 @@ export default function Navbar() {
             <button>
               <Link to="/cart">
                 Cart
-                <span className={styles.cart_num}>0</span>
+                {cartItems && (
+                  <span className={styles.cart_num}>{cartItems.length}</span>
+                )}
               </Link>
             </button>
           )}
