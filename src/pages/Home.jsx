@@ -9,7 +9,7 @@ export default function Home() {
     <>
       <Carousels />
       <h2 className="main"> NEW ARRIVALS</h2>
-      <Product />
+      <Product filter="all" />
     </>
   );
 }

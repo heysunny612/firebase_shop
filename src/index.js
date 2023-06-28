@@ -13,6 +13,7 @@ import Login from "./pages/Login";
 import UserContextProvider from "./context/UserContext";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Category from "./pages/Category";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "/products", element: <AllProducts /> },
+      { path: "/products/:category", element: <Category /> },
       {
         path: "/products/new",
         element: (
@@ -30,7 +32,7 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
-      { path: "/products/:id", element: <ProductDetail /> },
+      { path: "/product/:id", element: <ProductDetail /> },
       {
         path: "/cart",
         element: (

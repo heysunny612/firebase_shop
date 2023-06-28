@@ -8,7 +8,7 @@ export default function ProductCard({
 }) {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate(`/products/${id}`, { state: { product } });
+    navigate(`/product/${id}`, { state: { product } });
   };
   return (
     <li className={styles.product} ole="button" onClick={handleClick}>

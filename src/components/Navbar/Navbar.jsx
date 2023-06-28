@@ -7,6 +7,13 @@ import { logout } from "../../api/firebase";
 import { useUserContext } from "../../context/UserContext";
 import useCart from "../../hooks/useCart";
 
+const category = [
+  { name: "All", path: "all" },
+  { name: "Women", path: "women" },
+  { name: "Men", path: "men" },
+  { name: "Shoes", path: "shoes" },
+];
+
 export default function Navbar() {
   const { user } = useUserContext();
   const [toggleBtn, setToggleBtn] = useState(false);
@@ -52,15 +59,16 @@ export default function Navbar() {
             toggleBtn ? `${styles.nav} ${styles.active}` : `${styles.nav}`
           }
         >
-          <li>
-            <Link to="/">All Products</Link>
-          </li>
-          <li>
-            <Link to="/">Clothing</Link>
-          </li>
-          <li>
-            <Link to="/">Acc</Link>
-          </li>
+          {category.map(({ path, name }) => (
+            <li key={name}>
+              <Link
+                to={`/products/${path}`}
+                onClick={() => setToggleBtn(!toggleBtn)}
+              >
+                {name}
+              </Link>
+            </li>
+          ))}
         </ul>
         <div
           className={

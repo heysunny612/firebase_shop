@@ -6,7 +6,7 @@ import { addCart, deleteCartItem } from "../../api/firebase";
 import useCart from "../../hooks/useCart";
 export default function CartItem({
   product,
-  product: { id, image, options, price, quantity },
+  product: { id, title, image, options, price, quantity },
 }) {
   const { updateCart, removeCart } = useCart();
   const handleMinus = () => {
@@ -17,6 +17,10 @@ export default function CartItem({
     updateCart.mutate({ ...product, quantity: quantity + 1 });
   };
   const handleDelete = () => {
+    const isDelete = window.confirm(
+      `장바구니에서 ${title} 정말 삭제하시겠습니까?`
+    );
+    if (!isDelete) return;
     removeCart.mutate(id);
   };
   return (
@@ -26,7 +30,7 @@ export default function CartItem({
       </div>
       <div className={styles.cart_info}>
         <div>
-          <p className={styles.title}></p>
+          <p className={styles.title}>{title}</p>
           <p className={styles.option}>
             Option : <span>{options}</span>
           </p>

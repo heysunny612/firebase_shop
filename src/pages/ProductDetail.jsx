@@ -15,7 +15,6 @@ export default function ProductDetail() {
   const [selected, setSelected] = useState(options && options[0]);
   const handleChage = (e) => setSelected(e.target.value);
   const { updateCart } = useCart();
-
   const handleAddCart = () => {
     const cartItem = { ...product, options: selected, quantity: 1 };
     updateCart.mutate(cartItem, {
