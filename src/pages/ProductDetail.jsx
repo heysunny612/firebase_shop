@@ -2,11 +2,9 @@ import "../stylesheets/pages/ProductDetail.scss";
 import Button from "../components/Button/Button";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
-import { useUserContext } from "../context/UserContext";
-import { addCart, getCartItems } from "../api/firebase";
+import useCart from "../hooks/useCart";
 
 export default function ProductDetail() {
-  const { uid } = useUserContext();
   const [cartText, setCartText] = useState("");
   const {
     state: {
@@ -16,13 +14,17 @@ export default function ProductDetail() {
   } = useLocation();
   const [selected, setSelected] = useState(options && options[0]);
   const handleChage = (e) => setSelected(e.target.value);
+  const { updateCart } = useCart();
 
   const handleAddCart = () => {
-    addCart(uid, { ...product, options: selected, quantity: 1 }).then(() => {
-      setCartText("장바구니에 추가되었습니다");
-      setTimeout(() => {
-        setCartText("");
-      }, 3000);
+    const cartItem = { ...product, options: selected, quantity: 1 };
+    updateCart.mutate(cartItem, {
+      onSuccess: () => {
+        setCartText("장바구니에 추가되었습니다");
+        setTimeout(() => {
+          setCartText("");
+        }, 3000);
+      },
     });
   };
   return (

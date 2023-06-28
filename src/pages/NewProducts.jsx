@@ -1,31 +1,37 @@
 import "../stylesheets/pages/NewProducts.scss";
 import Button from "../components/Button/Button";
 import { useForm } from "react-hook-form";
-import { createNewProduct } from "../api/firebase";
 import { useState } from "react";
 import { uploadImageCloudinary } from "../api/cloudinary";
+import useProducts from "../hooks/useProducts";
 
 export default function NewProducts() {
   const { register, handleSubmit, reset } = useForm();
   const [imgURL, setImgURL] = useState(null);
   const [isUploding, setIsUploding] = useState(false);
   const [uploadText, setUploadText] = useState("");
+  const { addProduct } = useProducts();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (product) => {
     setIsUploding(true);
-    uploadImageCloudinary(imgURL)
-      .then((url) => {
-        createNewProduct(data, url) //
-          .then(() => {
+    try {
+      const url = await uploadImageCloudinary(imgURL);
+      addProduct.mutate(
+        { product, url },
+        {
+          onSuccess: () => {
             setUploadText("성공적으로 제품이 추가 되었습니다.");
             setTimeout(() => {
               setUploadText("");
             }, 4000);
-          });
-      })
-      .finally(() => setIsUploding(false));
-    reset();
-    setImgURL(null);
+          },
+        }
+      );
+    } finally {
+      setIsUploding(false);
+      reset();
+      setImgURL(null);
+    }
   };
 
   const handleImage = (event) => {

@@ -1,31 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
 import { AiOutlinePlusSquare, AiOutlineMinusSquare } from "react-icons/ai";
 import { BsTrashFill } from "react-icons/bs";
 import styles from "./CartItem.module.css";
-import { useUserContext } from "../../context/UserContext";
 import { addCart, deleteCartItem } from "../../api/firebase";
+import useCart from "../../hooks/useCart";
 export default function CartItem({
   product,
   product: { id, image, options, price, quantity },
 }) {
-  const { uid } = useUserContext();
-  const [count, setCount] = useState(quantity);
+  const { updateCart, removeCart } = useCart();
   const handleMinus = () => {
-    if (count <= 1) return;
-    setCount((prev) => prev - 1);
-    addCart(uid, {
-      ...product,
-      quantity: count - 1,
-    });
+    if (quantity < 2) return;
+    updateCart.mutate({ ...product, quantity: quantity - 1 });
   };
   const handlePlus = () => {
-    setCount((prev) => prev + 1);
-    addCart(uid, {
-      ...product,
-      quantity: count + 1,
-    });
+    updateCart.mutate({ ...product, quantity: quantity + 1 });
   };
-  console.log(count);
+  const handleDelete = () => {
+    removeCart.mutate(id);
+  };
   return (
     <li className={styles.cart_list}>
       <div className={styles.cart_img}>
@@ -41,9 +34,9 @@ export default function CartItem({
         </div>
         <div className={styles.cart_quantity}>
           <AiOutlineMinusSquare onClick={handleMinus} />
-          {count}
+          {quantity}
           <AiOutlinePlusSquare onClick={handlePlus} />
-          <BsTrashFill onClick={() => deleteCartItem(uid, id)} />
+          <BsTrashFill onClick={handleDelete} />
         </div>
       </div>
     </li>

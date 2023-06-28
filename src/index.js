@@ -12,7 +12,6 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import UserContextProvider from "./context/UserContext";
 import ProtectedRoute from "./pages/ProtectedRoute";
-import CartContextProvider from "./context/CartContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const router = createBrowserRouter([
@@ -54,9 +53,7 @@ root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <UserContextProvider>
-        <CartContextProvider>
-          <RouterProvider router={router} />
-        </CartContextProvider>
+        <RouterProvider router={router} />
       </UserContextProvider>
     </QueryClientProvider>
   </React.StrictMode>
