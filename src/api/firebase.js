@@ -1,4 +1,4 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp } from 'firebase/app';
 import {
   getAuth,
   signInWithPopup,
@@ -7,17 +7,9 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
-} from "firebase/auth";
-import {
-  getDatabase,
-  ref,
-  get,
-  child,
-  set,
-  update,
-  remove,
-} from "firebase/database";
-import { v4 as uuidv4 } from "uuid";
+} from 'firebase/auth';
+import { getDatabase, ref, get, child, set, remove } from 'firebase/database';
+import { v4 as uuidv4 } from 'uuid';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -38,7 +30,7 @@ const db = getDatabase(app);
 export const loginWithSocial = () => {
   const provider = new GoogleAuthProvider();
   provider.setCustomParameters({
-    prompt: "select_account",
+    prompt: 'select_account',
   });
   signInWithPopup(auth, provider).catch(console.error);
 };
@@ -90,7 +82,7 @@ export const createNewProduct = async (product, image) => {
     ...product,
     id,
     image,
-    options: product.options.split(","),
+    options: product.options.split(','),
     price: parseInt(product.price),
     createdAt: Date.now(),
   }).catch(console.error);

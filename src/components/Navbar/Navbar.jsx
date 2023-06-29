@@ -2,7 +2,6 @@ import styles from './Navbar.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { GrClose, GrMenu } from 'react-icons/gr';
-import { MdDarkMode, MdLightMode } from 'react-icons/md';
 import { logout } from '../../api/firebase';
 import { useUserContext } from '../../context/UserContext';
 import useCart from '../../hooks/useCart';

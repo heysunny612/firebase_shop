@@ -4,7 +4,6 @@ import Product from '../components/Product/Product';
 import useProducts from '../hooks/useProducts';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import ProductCard from '../components/Product/ProductCard/ProductCard';
 
 export default function Search() {
   const {

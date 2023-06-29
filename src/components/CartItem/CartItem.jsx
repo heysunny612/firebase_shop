@@ -1,9 +1,8 @@
-import React from "react";
-import { AiOutlinePlusSquare, AiOutlineMinusSquare } from "react-icons/ai";
-import { BsTrashFill } from "react-icons/bs";
-import styles from "./CartItem.module.css";
-import { addCart, deleteCartItem } from "../../api/firebase";
-import useCart from "../../hooks/useCart";
+import React from 'react';
+import { AiOutlinePlusSquare, AiOutlineMinusSquare } from 'react-icons/ai';
+import { BsTrashFill } from 'react-icons/bs';
+import styles from './CartItem.module.css';
+import useCart from '../../hooks/useCart';
 export default function CartItem({
   product,
   product: { id, title, image, options, price, quantity },
@@ -26,7 +25,7 @@ export default function CartItem({
   return (
     <li className={styles.cart_list}>
       <div className={styles.cart_img}>
-        <img src={image} alt="" width="100%" />
+        <img src={image} alt='' width='100%' />
       </div>
       <div className={styles.cart_info}>
         <div>
