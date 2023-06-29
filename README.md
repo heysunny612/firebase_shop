@@ -1,72 +1,69 @@
-# Getting Started with Create React App
+# 리액트 프로젝트 파이어베이스를 이용한 쇼핑몰 써니샤피 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 로컬스로리지를 이용한 팝업 구현
 
-## Available Scripts
+<br/>
+<br/>
 
-In the project directory, you can run:
+<div align="center">
+  <img src="https://github.com/heysunny612/firebase_shop/assets/127499117/c48c3361-0cba-440b-98d8-5d2d7f64d701">
+</div>
 
-### `yarn start`
+<br/>
+<br/>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 파이어베이스 Auth를 이용한 로그인 구현
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+<br/>
 
-### `yarn test`
+<p align="center">
+  <img src="https://github.com/heysunny612/firebase_shop/assets/127499117/ad8a619c-f48f-492c-a62c-298b7befa40c">
+</p>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<br/>
+<br/>
 
-### `yarn build`
+## 파이어베이스 Auth이용 Admin 권한 부여 및 상품등록 구현 및 클라우디너리를 이용한 이미지 업로드 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<p align="center">
+  <img src="https://github.com/heysunny612/firebase_shop/assets/127499117/60fb83b7-23ce-4293-bae3-81aa2b36f79b">
+</p>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<br/>
+<br/>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 상품 검색 구현 
 
-### `yarn eject`
+<p align="center">
+  <img src="https://github.com/heysunny612/firebase_shop/assets/127499117/73a764dd-3d75-4772-a951-6dfeb6554e0c">
+</p>
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+<br/>
+<br/>
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## React Query를 사용한 장바구니 구현
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+<p align="center">
+  <img src="https://github.com/heysunny612/firebase_shop/assets/127499117/47234d74-df80-4675-b4a4-ec364828aa08">
+</p>
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+<br/>
+<br/>
 
-## Learn More
+## Scroll 이벤트를 활용한 Top ,bottom 구현 
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+<p align="center">
+  <img src="https://github.com/heysunny612/firebase_shop/assets/127499117/5b4e165b-7d09-4550-a29b-3dfeaf7c93e6">
+</p>
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+<br/>
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+| 제목 | 설명 |
+| --- | --- |
+| 구현 사항 |	-로컬스로리지를 이용한 팝업 구현<br/>-파이어베이스 Auth를 이용한 로그인 구현 <br/>-파이어베이스 Auth이용 Admin 권한 부여 및 상품등록 구현 <br/>-클라우디너리를 이용한 이미지 업로드 <br/>-상품 검색 구현 <br/>-React Query를 사용한 장바구니 구현<br/>-Scroll 이벤트를 활용한 Top ,bottom 구현 |
+| 라이브러리 |	firebase, react-query, react-router-dom, react-hook-form, sass, cloudinary, react-animated-slider, uuidv4 |
+| css 및 반응형  | SASS+Post CSS사용 , 반응형 구현  |
+| 배포 주소  | Netlify [https://sunny-shoppy.netlify.app/](https://sunny-shoppy.netlify.app/)|
+| 소스 코드  | Github [https://github.com/heysunny612/firebase_switter](https://github.com/heysunny612/firebase_shop)https://github.com/heysunny612/firebase_shop|
 
 
