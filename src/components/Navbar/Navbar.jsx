@@ -70,11 +70,13 @@ export default function Navbar() {
           }
         >
           <button>
-            <Link to='/search'> Search</Link>
+            <Link to='/search' onClick={closeToggleMenu}>
+              Search
+            </Link>
           </button>
           {user && (
             <button>
-              <Link to='/cart'>
+              <Link to='/cart' onClick={closeToggleMenu}>
                 Cart
                 {cartItems && (
                   <span className={styles.cart_num}>{cartItems.length}</span>
