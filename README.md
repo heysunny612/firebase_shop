@@ -65,5 +65,6 @@
 | css 및 반응형  | SASS+Post CSS사용 , 반응형 구현  |
 | 배포 주소  | Netlify [https://sunny-shoppy.netlify.app/](https://sunny-shoppy.netlify.app/)|
 | 소스 코드  | Github [https://github.com/heysunny612/firebase_switter](https://github.com/heysunny612/firebase_shop)https://github.com/heysunny612/firebase_shop|
+| admin 계정   |id : admin@admin.com / pw : 123456  |
 
 
